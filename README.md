@@ -158,11 +158,11 @@ polished 1.0.
   GitHub/Linear/Slack and the premium AI providers listed above only ever
   activate if you connect them yourself, with your own credentials.
 - **This is an early, single-developer build, not a finished product.**
-  It works well on the developer's own machine today. Getting it to work
-  the same way on an arbitrary stranger's Mac — packaging, code signing,
-  and making the local "understanding" model runnable outside one specific
-  dev environment — is real, ongoing work that isn't finished yet. That's
-  being tracked and worked through deliberately rather than papered over.
+  It ships with a fully self-contained local AI runtime (no dependency on
+  anyone's personal machine or dev environment) and a first-run screen that
+  downloads the real local models it needs directly from Hugging Face. Code
+  signing is still the one honestly unfinished piece — see **Download**
+  below — that's real, tracked work, not papered over.
 
 ## Download
 
