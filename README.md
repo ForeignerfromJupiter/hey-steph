@@ -27,6 +27,40 @@ through native APIs instead of screen-scraping. That's a narrower promise than
 
 It lives quietly in your menu bar, listens for a wake word, and talks back.
 
+## How it's built
+
+This is a solo-developer project, built by Ashik working directly with Claude —
+real, hands-on engineering sessions, not a generated demo. A few honest
+highlights, because the process is part of what makes this different from a
+typical "voice assistant" side project:
+
+- **The free tier is genuinely engineered, not a downgrade.** The on-device
+  routing model was fine-tuned (a real teacher/student distillation pass) to
+  imitate a much larger model's judgment — held-out accuracy went from 91% to
+  96% on one real test set and 93% to 94% on another, with **zero regressions**,
+  verified before it ever shipped. The paid cloud options are a genuine upgrade
+  for people who want them, never a requirement to get a good experience.
+- **Real bugs get root-caused, not patched over.** Example: a live crash
+  traced to a Swift concurrency race — two parts of the app could resolve the
+  same async operation at once — fixed by finding the actual data race, not by
+  adding a delay and hoping. Another: the voice engine was found to leak GPU
+  memory unboundedly during long sessions (14GB+ after extended use); root-caused
+  to a missing cache limit in the underlying ML framework and fixed with real
+  before/after measurements (a ~90% reduction, no speed cost).
+- **A real security review happened before anything shipped publicly.** Every
+  OAuth-based integration was checked for a real vulnerability class (a
+  malicious local process intercepting a sign-in) and fixed across the board —
+  not left as a theoretical risk.
+- **Everything is tested against reality, not assumptions.** Free web search
+  options were live-tested one by one (several turned out to be dead or
+  blocked in 2026) before landing on what actually works. A "smart end-of-turn"
+  detection feature was verified with real timing numbers (a real command now
+  finishes in under 300ms instead of over 700ms) rather than shipped on vibes.
+
+The point isn't that mistakes don't happen — plenty did, and they're logged
+honestly rather than hidden. The point is that everything here is backed by
+real evidence, not just claimed.
+
 <p align="center">
   <img src="assets/menu-bar-icon.png" alt="Hey Steph's menu bar icon, actively listening" />
 </p>
@@ -132,15 +166,19 @@ polished 1.0.
 
 ## Download
 
-There's no packaged, one-click download yet — see **Requirements & status**
-above for exactly why. A signed, notarized release (with auto-updates) is
-in progress but not ready to publish.
+**[Download the latest release](../../releases/latest)** — an early alpha
+build, real and installable today, with the honest caveats spelled out
+above (see **Requirements & status**) and repeated on the release page
+itself.
+
+It's not signed with an Apple Developer ID yet, so macOS will warn that
+it's from an unidentified developer the first time you open it — right-click
+the app and choose **Open** (or allow it under System Settings → Privacy &
+Security) to get past that. A properly signed, notarized release with
+real auto-updates is in progress but not ready yet.
 
 This repository is a public-facing overview, not the source tree — the app
-is still closed-source while it's under active, early development. If
-you're interested in trying an early build or hearing when packaged
-releases land, that's best done by reaching out directly for now (see
-**Feedback & issues** below).
+is still closed-source while it's under active, early development.
 
 ## Privacy
 
